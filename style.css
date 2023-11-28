@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #000;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 200px;
+}
+
+#timer {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#user-input {
+    text-align: center;
+}
