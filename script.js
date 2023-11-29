@@ -3,6 +3,8 @@ const spells = ['Q', 'W', 'E'];
 
 // Get elements from the DOM
 const gameContainer = document.getElementById('game-container');
+const userSpellContainer1 = document.getElementById('user-spell-container1');
+const userSpellContainer2 = document.getElementById('user-spell-container2');
 const timerElement = document.getElementById('time');
 const userInput = document.getElementById('keypress');
 
@@ -52,6 +54,12 @@ function getImageSource(mySpell) {
 			return 'spells/Hwei_Gaze_of_the_Abyss.jpg'
 		case 'EE':
 			return 'spells/Hwei_Crushing_Maw.jpg'
+		case 'Q':
+			return 'spells/Hwei_Subject_Disaster.jpg'
+		case 'W':
+			return 'spells/Hwei_Subject_Serenity.jpg'
+		case 'E':
+			return 'spells/Hwei_Subject_Torment.jpg'
 	}
 }
 
@@ -59,8 +67,6 @@ function getImageSource(mySpell) {
 function displaySpell() {
     // Clear the current content of the gameContainer
     gameContainer.innerHTML = '';
-	
-	//gameContainer.textContent = currentSpell;
 
     // Display the image in the game container
     const imageSrc = getImageSource(currentSpell); // Assuming you have a function to get the image source based on the spell
@@ -73,7 +79,32 @@ function displaySpell() {
     gameContainer.appendChild(image);
 }
 
+function displayUserSpell(myKey, mySpellCount) {
+	console.log(myKey);
+	console.log(mySpellCount);
+    // Clear the current content of the userSpellContainer
+	if(mySpellCount === 1){
+		userSpellContainer1.innerHTML = '';
+	// Display the image in the game container
+    const imageSrc = getImageSource(myKey); // Assuming you have a function to get the image source based on the spell
+    const image = new Image();
+    image.src = imageSrc;
+    image.width = 100; // Adjust width as needed
+    image.height = 100; // Adjust height as needed
 
+    // Append the image to the userSpellContainer
+    userSpellContainer1.appendChild(image);
+	}
+	
+	else if(mySpellCount === 2) {
+		userSpellContainer2.innerHTML = '';
+	}
+
+
+
+}
+
+// deprecated function
 /*
 function displaySpell() {
     // Display the spell in the game container
@@ -120,7 +151,10 @@ function show_image(src, width, height, alt) {
 // Event listener for user input
 userInput.addEventListener('keyup', function (event) {
 	userSpellCount++;
-	userSpell = userSpell.concat(event.key.toUpperCase());
+	userKey = event.key.toUpperCase()
+	userSpell = userSpell.concat(userKey);
+	displayUserSpell(userKey, userSpellCount);
+	
     // Check if the entered key matches the current spell
 	if (userSpellCount === 2) {
 		if (userSpell === currentSpell) {
@@ -131,6 +165,13 @@ userInput.addEventListener('keyup', function (event) {
 			userInput.value = ''; // Clear the input field
 			userSpell = ''; // Clear user's spell
 		}
+		else {
+			userInput.value = ''; // Clear the input field
+			userSpell = ''; // Clear user's spell
+		}
+		
+		// reset user spell count
+		userSpellCount = 0;
 	}
 });
 
