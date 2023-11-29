@@ -3,8 +3,7 @@ const spells = ['Q', 'W', 'E'];
 
 // Get elements from the DOM
 const gameContainer = document.getElementById('game-container');
-const userSpellContainer1 = document.getElementById('user-spell-container1');
-const userSpellContainer2 = document.getElementById('user-spell-container2');
+const userSpellContainer = document.getElementById('user-spell-container');
 const timerElement = document.getElementById('time');
 const userInput = document.getElementById('keypress');
 
@@ -84,7 +83,7 @@ function displayUserSpell(myKey, mySpellCount) {
 	console.log(mySpellCount);
     // Clear the current content of the userSpellContainer
 	if(mySpellCount === 1){
-		userSpellContainer1.innerHTML = '';
+		userSpellContainer.innerHTML = '';
 	// Display the image in the game container
     const imageSrc = getImageSource(myKey); // Assuming you have a function to get the image source based on the spell
     const image = new Image();
@@ -93,14 +92,33 @@ function displayUserSpell(myKey, mySpellCount) {
     image.height = 100; // Adjust height as needed
 
     // Append the image to the userSpellContainer
-    userSpellContainer1.appendChild(image);
+    userSpellContainer.appendChild(image);
 	}
 	
+	
 	else if(mySpellCount === 2) {
-		userSpellContainer2.innerHTML = '';
+		if (userSpell === currentSpell) {
+			userSpellContainer.innerHTML = '';
+			const image = new Image();
+			// TODO future state:  include currentSpell image with checkmark overlaid
+				//const imageSrc = getImageSource(currentSpell);
+				//image.src = imageSrc;
+			image.src = 'spells/checkmark.jpg'
+			image.width = 100;
+			image.height = 100;
+			userSpellContainer.appendChild(image);
+		}
+		else {
+			userSpellContainer.innerHTML = '';
+			const image = new Image();
+			image.src = 'spells/redX.jpg'
+			image.width = 100;
+			image.height = 100;
+			userSpellContainer.appendChild(image);
+		}
 	}
-
-
+	
+	else console.log("displayUserSpell error");
 
 }
 
