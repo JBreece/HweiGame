@@ -6,6 +6,7 @@ const gameContainer = document.getElementById('game-container');
 const userSpellContainer = document.getElementById('user-spell-container');
 const timerElement = document.getElementById('time');
 const userInput = document.getElementById('keypress');
+const startButton = document.getElementById('start-button');
 const tryAgainButton = document.getElementById('try-again-button');
 
 let currentSpell;
@@ -23,6 +24,14 @@ function startGame() {
     userInput.focus();
 	// Start the timer countdown
 	timer = setInterval(updateTimer, 1000);
+	startButton.remove();
+	tryAgainButton.style.display = "none";
+	userSpellContainer.style.display = "inline-block";
+}
+
+function startButtonPress() {
+	gameContainer.style.height = "200px";
+	startGame();
 }
 
 function restartGame() {
@@ -84,8 +93,6 @@ function displaySpell() {
 }
 
 function displayUserSpell(myKey, mySpellCount) {
-	console.log(myKey);
-	console.log(mySpellCount);
     // Clear the current content of the userSpellContainer
 	if(mySpellCount === 1){
 		userSpellContainer.innerHTML = '';
@@ -154,7 +161,7 @@ function updateTimer() {
 
 function endGame() {
     // Handle game over logic
-	tryAgainButton.style.background="white";
+	tryAgainButton.style.display = "block";
     alert('Game Over!'); // You can replace this with your own game over message
     clearInterval(timer);
 }
@@ -174,34 +181,48 @@ function show_image(src, width, height, alt) {
 
 // Event listener for user input
 userInput.addEventListener('keydown', function (event) {
-	userSpellCount++;
-	userKey = event.key.toUpperCase()
-	userSpell = userSpell.concat(userKey);
-	displayUserSpell(userKey, userSpellCount);
-	
-    // Check if the entered key matches the current spell
-	if (userSpellCount === 2) {
-		if (userSpell === currentSpell) {
-			// Correct input, reset the timer and generate a new spell
-			resetTimer();
-			generateSpell();
-			displaySpell();
-			userInput.value = ''; // Clear the input field
-			userSpell = ''; // Clear user's spell
-		}
-		else {
-			userInput.value = ''; // Clear the input field
-			userSpell = ''; // Clear user's spell
-		}
-		
-		// reset user spell count
+	userKey = event.key.toUpperCase();
+	if (userKey === "R") {
 		userSpellCount = 0;
+		userSpell = '';
+		userInput.value = '';
+		userSpellContainer.innerHTML = '';
+		const image = new Image();
+		image.src = 'spells/Hwei_Wash_Brush.jpg'
+		image.width = 100;
+		image.height = 100;
+		userSpellContainer.appendChild(image);
+	}
+	else if (spells.includes(userKey)) {
+		userSpellCount++;
+		userSpell = userSpell.concat(userKey);
+		displayUserSpell(userKey, userSpellCount);
+		
+		// Check if the entered key matches the current spell
+		if (userSpellCount === 2) {
+			if (userSpell === currentSpell) {
+				// Correct input, reset the timer and generate a new spell
+				resetTimer();
+				generateSpell();
+				displaySpell();
+				userInput.value = ''; // Clear the input field
+				userSpell = ''; // Clear user's spell
+			}
+			else {
+				userInput.value = ''; // Clear the input field
+				userSpell = ''; // Clear user's spell
+			}
+			
+			// reset user spell count
+			userSpellCount = 0;
+		}
 	}
 });
 
 //restartGame not restartGame() - we want function reference, not function invocation
 //https://stackoverflow.com/questions/29526556/javascript-onclick-function-is-called-immediately-not-when-clicked
 tryAgainButton.onclick = startGame;
+startButton.onclick = startButtonPress;
 
 // Start the game when the page loads
-document.addEventListener('DOMContentLoaded', startGame);
+//document.addEventListener('DOMContentLoaded', startGame);
