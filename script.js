@@ -6,6 +6,7 @@ const gameContainer = document.getElementById('game-container');
 const userSpellContainer = document.getElementById('user-spell-container');
 const timerElement = document.getElementById('time');
 const userInput = document.getElementById('keypress');
+const tryAgainButton = document.getElementById('try-again-button');
 
 let currentSpell;
 let key1;
@@ -22,6 +23,10 @@ function startGame() {
     userInput.focus();
 	// Start the timer countdown
 	timer = setInterval(updateTimer, 1000);
+}
+
+function restartGame() {
+	alert("game restart!");
 }
 
 function generateSpell() {
@@ -149,6 +154,7 @@ function updateTimer() {
 
 function endGame() {
     // Handle game over logic
+	tryAgainButton.style.background="white";
     alert('Game Over!'); // You can replace this with your own game over message
     clearInterval(timer);
 }
@@ -167,7 +173,7 @@ function show_image(src, width, height, alt) {
 
 
 // Event listener for user input
-userInput.addEventListener('keyup', function (event) {
+userInput.addEventListener('keydown', function (event) {
 	userSpellCount++;
 	userKey = event.key.toUpperCase()
 	userSpell = userSpell.concat(userKey);
@@ -192,6 +198,10 @@ userInput.addEventListener('keyup', function (event) {
 		userSpellCount = 0;
 	}
 });
+
+//restartGame not restartGame() - we want function reference, not function invocation
+//https://stackoverflow.com/questions/29526556/javascript-onclick-function-is-called-immediately-not-when-clicked
+tryAgainButton.onclick = startGame;
 
 // Start the game when the page loads
 document.addEventListener('DOMContentLoaded', startGame);
